@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import GlitchText from '@/components/GlitchText';
 import AudioController from '@/components/AudioController';
@@ -7,6 +6,7 @@ import ControlPanel from '@/components/ControlPanel';
 import AudioPlayer from '@/components/AudioPlayer';
 import SpotifySelector from '@/components/SpotifySelector';
 import VideoPrompter from '@/components/VideoPrompter';
+import NavToggle from '@/components/NavToggle';
 import { Toaster } from '@/components/ui/toaster';
 import { generateVisualEffect } from '@/utils/validation';
 import { useToast } from '@/hooks/use-toast';
@@ -18,7 +18,6 @@ import { Music, Video } from "lucide-react";
 const Index = () => {
   const { toast } = useToast();
   
-  // Estados para controles de audio
   const [stemControls, setStemControls] = useState<StemControl[]>([
     { id: 'vocales', nombre: 'Vocales', volumen: 0.5 },
     { id: 'instrumental', nombre: 'Instrumental', volumen: 0.5 },
@@ -32,21 +31,17 @@ const Index = () => {
     distorsion: false
   });
   
-  // Estados para videoclip y efectos visuales
   const [efectoVisual, setEfectoVisual] = useState<EfectoVisual>('ninguno');
   
-  // Estados para integración con Spotify
   const [pistaActual, setPistaActual] = useState<PistaSpotify | null>(null);
   const [stems, setStems] = useState<StemsExtraccion | null>(null);
   const [cargandoStems, setCargandoStems] = useState(false);
   
-  // Cálculo de niveles de stems para compatibilidad con funciones existentes
   const nivelesStems = stemControls.reduce((acc, stem) => {
     acc[stem.id] = stem.volumen;
     return acc;
   }, {} as Record<string, number>);
   
-  // Efecto para la generación automática de efectos visuales basados en audio
   useEffect(() => {
     const vocalVolume = nivelesStems['vocales'] || 0;
     const instrumentalVolume = nivelesStems['instrumental'] || 0;
@@ -60,7 +55,6 @@ const Index = () => {
     }
   }, [nivelesStems, efectoVisual, toast]);
 
-  // Manejador para cambio de volumen de stems
   const manejarCambioVolumen = (stemId: string, valor: number) => {
     setStemControls(prevStems => 
       prevStems.map(stem => 
@@ -69,12 +63,10 @@ const Index = () => {
     );
   };
 
-  // Manejador para activar/desactivar efectos de audio
   const manejarAlternarEfecto = (efectoId: string, activo: boolean) => {
     setEfectosActivos(prev => ({ ...prev, [efectoId]: activo }));
   };
 
-  // Manejador para cambiar el efecto visual
   const manejarCambioEfectoVisual = (efecto: EfectoVisual) => {
     setEfectoVisual(efecto);
     if (efecto !== 'ninguno') {
@@ -84,7 +76,6 @@ const Index = () => {
     }
   };
 
-  // Manejador para seleccionar presets predefinidos
   const manejarSeleccionPreset = (presetId: string) => {
     switch (presetId) {
       case 'cyberpunk':
@@ -131,7 +122,6 @@ const Index = () => {
     });
   };
 
-  // Seleccionar una pista de Spotify y cargar sus stems
   const seleccionarPista = async (pista: PistaSpotify) => {
     setPistaActual(pista);
     
@@ -155,6 +145,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <NavToggle />
+      
       <header className="py-4 px-6">
         <div className="flex justify-center items-center">
           <GlitchText 
@@ -170,7 +162,6 @@ const Index = () => {
       <main className="flex-1 container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 space-y-6">
-            {/* Panel de control de audio con pestañas */}
             <Tabs defaultValue="audio-controller" className="w-full">
               <TabsList className="grid grid-cols-2 mb-4">
                 <TabsTrigger value="audio-controller" className="data-[state=active]:bg-cyber-purple">
@@ -197,7 +188,6 @@ const Index = () => {
               </TabsContent>
             </Tabs>
 
-            {/* Reproductor de audio con stems */}
             <AudioPlayer 
               stems={stems}
               pistaActual={pistaActual}
@@ -207,13 +197,11 @@ const Index = () => {
           </div>
           
           <div className="lg:col-span-2 space-y-6">
-            {/* Visualizador con videoclip reactivo */}
             <VideoPlayer 
               activeVisualEffect={efectoVisual}
               stemLevels={nivelesStems}
             />
             
-            {/* Panel de control con pestañas */}
             <Tabs defaultValue="visual-controls" className="w-full">
               <TabsList className="grid grid-cols-2 mb-4">
                 <TabsTrigger value="visual-controls" className="data-[state=active]:bg-cyber-purple">
