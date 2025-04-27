@@ -7,86 +7,84 @@ import ControlPanel from '@/components/ControlPanel';
 import { Toaster } from '@/components/ui/toaster';
 import { generateVisualEffect } from '@/utils/validation';
 import { useToast } from '@/components/ui/use-toast';
+import { EfectoVisual } from '@/types/audio';
 
 const Index = () => {
   const { toast } = useToast();
-  const [stemLevels, setStemLevels] = useState<Record<string, number>>({
-    vocals: 0.5,
+  const [nivelesStems, setNivelesStems] = useState<Record<string, number>>({
+    vocales: 0.5,
     instrumental: 0.5,
-    effects: 0.3
+    efectos: 0.3
   });
   
-  const [activeEffects, setActiveEffects] = useState<Record<string, boolean>>({
+  const [efectosActivos, setEfectosActivos] = useState<Record<string, boolean>>({
     glitch: false,
     reverb: false,
     delay: false,
-    distortion: false
+    distorsion: false
   });
   
-  const [visualEffect, setVisualEffect] = useState('none');
+  const [efectoVisual, setEfectoVisual] = useState<EfectoVisual>('ninguno');
   
   useEffect(() => {
-    // Generate visual effect based on stem levels
-    const autoEffect = generateVisualEffect(stemLevels.vocals, stemLevels.instrumental);
-    if (visualEffect === 'none' && autoEffect !== 'none') {
-      setVisualEffect(autoEffect);
+    const efectoAuto = generateVisualEffect(nivelesStems.vocales, nivelesStems.instrumental);
+    if (efectoVisual === 'ninguno' && efectoAuto !== 'ninguno') {
+      setEfectoVisual(efectoAuto as EfectoVisual);
       toast({
-        description: `Auto-activated ${autoEffect} effect based on audio levels`,
+        description: `Se activó automáticamente el efecto ${efectoAuto} basado en los niveles de audio`,
       });
     }
-  }, [stemLevels, visualEffect, toast]);
+  }, [nivelesStems, efectoVisual, toast]);
 
-  const handleVolumeChange = (stemId: string, value: number) => {
-    setStemLevels(prev => ({ ...prev, [stemId]: value }));
+  const manejarCambioVolumen = (stemId: string, valor: number) => {
+    setNivelesStems(prev => ({ ...prev, [stemId]: valor }));
   };
 
-  const handleEffectToggle = (effectId: string, active: boolean) => {
-    setActiveEffects(prev => ({ ...prev, [effectId]: active }));
+  const manejarAlternarEfecto = (efectoId: string, activo: boolean) => {
+    setEfectosActivos(prev => ({ ...prev, [efectoId]: activo }));
   };
 
-  const handleVisualEffectChange = (effect: string) => {
-    setVisualEffect(effect);
-    if (effect !== 'none') {
+  const manejarCambioEfectoVisual = (efecto: EfectoVisual) => {
+    setEfectoVisual(efecto);
+    if (efecto !== 'ninguno') {
       toast({
-        description: `${effect.charAt(0).toUpperCase() + effect.slice(1)} visual effect activated`,
+        description: `Efecto visual ${efecto} activado`,
       });
     }
   };
 
-  const handlePresetSelect = (presetId: string) => {
-    // Presets apply curated combinations (anti-trolling feature)
+  const manejarSeleccionPreset = (presetId: string) => {
     switch (presetId) {
       case 'cyberpunk':
-        setStemLevels({ vocals: 0.6, instrumental: 0.5, effects: 0.3 });
-        setActiveEffects({ glitch: true, reverb: false, delay: true, distortion: false });
-        setVisualEffect('glitch');
+        setNivelesStems({ vocales: 0.6, instrumental: 0.5, efectos: 0.3 });
+        setEfectosActivos({ glitch: true, reverb: false, delay: true, distorsion: false });
+        setEfectoVisual('glitch');
         break;
       case 'neon_pulse':
-        setStemLevels({ vocals: 0.5, instrumental: 0.7, effects: 0.2 });
-        setActiveEffects({ glitch: false, reverb: true, delay: false, distortion: false });
-        setVisualEffect('pulse');
+        setNivelesStems({ vocales: 0.5, instrumental: 0.7, efectos: 0.2 });
+        setEfectosActivos({ glitch: false, reverb: true, delay: false, distorsion: false });
+        setEfectoVisual('pulso');
         break;
       case 'glitch_noir':
-        setStemLevels({ vocals: 0.7, instrumental: 0.3, effects: 0.4 });
-        setActiveEffects({ glitch: true, reverb: false, delay: false, distortion: true });
-        setVisualEffect('glitch');
+        setNivelesStems({ vocales: 0.7, instrumental: 0.3, efectos: 0.4 });
+        setEfectosActivos({ glitch: true, reverb: false, delay: false, distorsion: true });
+        setEfectoVisual('glitch');
         break;
       case 'digital_dream':
-        setStemLevels({ vocals: 0.4, instrumental: 0.6, effects: 0.5 });
-        setActiveEffects({ glitch: false, reverb: true, delay: true, distortion: false });
-        setVisualEffect('wave');
+        setNivelesStems({ vocales: 0.4, instrumental: 0.6, efectos: 0.5 });
+        setEfectosActivos({ glitch: false, reverb: true, delay: true, distorsion: false });
+        setEfectoVisual('onda');
         break;
     }
     
     toast({
-      title: "Preset Applied",
-      description: `${presetId.replace('_', ' ')} preset loaded successfully`,
+      title: "Preset Aplicado",
+      description: `Preset ${presetId.replace('_', ' ')} cargado exitosamente`,
     });
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
       <header className="py-4 px-6">
         <div className="flex justify-center items-center">
           <GlitchText 
@@ -99,35 +97,30 @@ const Index = () => {
         </p>
       </header>
       
-      {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-          {/* Left Column - Audio Controls */}
           <div className="lg:col-span-1">
             <AudioController 
-              onVolumeChange={handleVolumeChange}
-              onEffectToggle={handleEffectToggle}
+              onCambioVolumen={manejarCambioVolumen}
+              onAlternarEfecto={manejarAlternarEfecto}
             />
           </div>
           
-          {/* Center/Right Column - Video Player and Controls */}
           <div className="lg:col-span-2 space-y-6">
             <VideoPlayer 
-              activeVisualEffect={visualEffect}
-              stemLevels={stemLevels}
+              activeVisualEffect={efectoVisual}
+              stemLevels={nivelesStems}
             />
             
             <ControlPanel 
-              onVisualEffectChange={handleVisualEffectChange}
-              activeVisualEffect={visualEffect}
-              onPresetSelect={handlePresetSelect}
+              onVisualEffectChange={manejarCambioEfectoVisual}
+              activeVisualEffect={efectoVisual}
+              onPresetSelect={manejarSeleccionPreset}
             />
           </div>
         </div>
       </main>
       
-      {/* Footer */}
       <footer className="py-3 px-6 text-center">
         <div className="text-sm text-muted-foreground">
           <span className="text-cyber-purple">R3B0RN</span> © 2025 | CyberGlitch Hub

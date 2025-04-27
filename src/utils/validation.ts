@@ -1,18 +1,12 @@
 
-// Anti-trolling validation utility for R3B0RN platform
-
-// Max values for stem controls (anti-troll measures)
 export const MAX_VOLUME = 0.8;
 export const MAX_EFFECTS = 3;
 export const MAX_COMBINED_VOLUME = 1.2;
 
-// Validate volume levels to prevent trolling with extreme settings
 export const validateVolume = (value: number): number => {
-  // Clamp value between 0 and MAX_VOLUME
   return Math.min(Math.max(0, value), MAX_VOLUME);
 };
 
-// Validate if combined stem volumes are within allowed range
 export const validateCombinedVolume = (
   volumes: Record<string, number>
 ): { valid: boolean; message: string | null } => {
@@ -24,26 +18,23 @@ export const validateCombinedVolume = (
   if (totalVolume > MAX_COMBINED_VOLUME) {
     return {
       valid: false,
-      message: `Combined volume (${totalVolume.toFixed(1)}) exceeds maximum (${MAX_COMBINED_VOLUME}). Please reduce some stems.`,
+      message: `El volumen combinado (${totalVolume.toFixed(1)}) excede el máximo (${MAX_COMBINED_VOLUME}). Por favor, reduce algunos stems.`,
     };
   }
 
   return { valid: true, message: null };
 };
 
-// Validate effects to ensure they stay within aesthetic guidelines
 export const validateEffects = (
   activeEffects: string[]
 ): { valid: boolean; message: string | null } => {
-  // Check if number of effects exceeds maximum
   if (activeEffects.length > MAX_EFFECTS) {
     return {
       valid: false,
-      message: `Too many effects active (${activeEffects.length}/${MAX_EFFECTS}). Please disable some effects.`,
+      message: `Demasiados efectos activos (${activeEffects.length}/${MAX_EFFECTS}). Por favor, desactiva algunos efectos.`,
     };
   }
 
-  // Check for incompatible effect combinations
   const hasGlitch = activeEffects.includes("glitch");
   const hasBlur = activeEffects.includes("blur");
   const hasReverb = activeEffects.includes("reverb");
@@ -51,29 +42,26 @@ export const validateEffects = (
   if (hasGlitch && hasBlur && hasReverb) {
     return {
       valid: false,
-      message: "Glitch, Blur and Reverb cannot be used together. Please disable one.",
+      message: "Glitch, Blur y Reverb no pueden usarse juntos. Por favor, desactiva uno.",
     };
   }
 
   return { valid: true, message: null };
 };
 
-// Allowed visual effects (curated set to prevent chaos)
 export const ALLOWED_VISUAL_EFFECTS = [
-  "none",
+  "ninguno",
   "glitch",
   "blur",
-  "pulse",
+  "pulso",
   "neon",
-  "wave",
-];
+  "onda",
+] as const;
 
-// Check if a visual effect is allowed
 export const isVisualEffectAllowed = (effect: string): boolean => {
-  return ALLOWED_VISUAL_EFFECTS.includes(effect);
+  return ALLOWED_VISUAL_EFFECTS.includes(effect as any);
 };
 
-// Generate a safe visual effect based on stem settings
 export const generateVisualEffect = (
   vocalVolume: number,
   instrumentalVolume: number
@@ -83,10 +71,10 @@ export const generateVisualEffect = (
   if (totalVolume > 1.0) {
     return "glitch";
   } else if (vocalVolume > 0.6) {
-    return "pulse";
+    return "pulso";
   } else if (instrumentalVolume > 0.6) {
-    return "wave";
+    return "onda";
   }
   
-  return "none";
+  return "ninguno";
 };
