@@ -4,18 +4,26 @@ import GlitchText from '@/components/GlitchText';
 import AudioController from '@/components/AudioController';
 import VideoPlayer from '@/components/VideoPlayer';
 import ControlPanel from '@/components/ControlPanel';
+import AudioPlayer from '@/components/AudioPlayer';
+import SpotifySelector from '@/components/SpotifySelector';
+import VideoPrompter from '@/components/VideoPrompter';
 import { Toaster } from '@/components/ui/toaster';
 import { generateVisualEffect } from '@/utils/validation';
-import { useToast } from '@/components/ui/use-toast';
-import { EfectoVisual } from '@/types/audio';
+import { useToast } from '@/hooks/use-toast';
+import { EfectoVisual, StemControl, EfectoAudio } from '@/types/audio';
+import { PistaSpotify, StemsExtraccion, spotifyService } from '@/services/spotifyService';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Music, Video } from "lucide-react";
 
 const Index = () => {
   const { toast } = useToast();
-  const [nivelesStems, setNivelesStems] = useState<Record<string, number>>({
-    vocales: 0.5,
-    instrumental: 0.5,
-    efectos: 0.3
-  });
+  
+  // Estados para controles de audio
+  const [stemControls, setStemControls] = useState<StemControl[]>([
+    { id: 'vocales', nombre: 'Vocales', volumen: 0.5 },
+    { id: 'instrumental', nombre: 'Instrumental', volumen: 0.5 },
+    { id: 'efectos', nombre: 'Efectos', volumen: 0.3 }
+  ]);
   
   const [efectosActivos, setEfectosActivos] = useState<Record<string, boolean>>({
     glitch: false,
@@ -24,10 +32,26 @@ const Index = () => {
     distorsion: false
   });
   
+  // Estados para videoclip y efectos visuales
   const [efectoVisual, setEfectoVisual] = useState<EfectoVisual>('ninguno');
   
+  // Estados para integración con Spotify
+  const [pistaActual, setPistaActual] = useState<PistaSpotify | null>(null);
+  const [stems, setStems] = useState<StemsExtraccion | null>(null);
+  const [cargandoStems, setCargandoStems] = useState(false);
+  
+  // Cálculo de niveles de stems para compatibilidad con funciones existentes
+  const nivelesStems = stemControls.reduce((acc, stem) => {
+    acc[stem.id] = stem.volumen;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  // Efecto para la generación automática de efectos visuales basados en audio
   useEffect(() => {
-    const efectoAuto = generateVisualEffect(nivelesStems.vocales, nivelesStems.instrumental);
+    const vocalVolume = nivelesStems['vocales'] || 0;
+    const instrumentalVolume = nivelesStems['instrumental'] || 0;
+    const efectoAuto = generateVisualEffect(vocalVolume, instrumentalVolume);
+    
     if (efectoVisual === 'ninguno' && efectoAuto !== 'ninguno') {
       setEfectoVisual(efectoAuto as EfectoVisual);
       toast({
@@ -36,14 +60,21 @@ const Index = () => {
     }
   }, [nivelesStems, efectoVisual, toast]);
 
+  // Manejador para cambio de volumen de stems
   const manejarCambioVolumen = (stemId: string, valor: number) => {
-    setNivelesStems(prev => ({ ...prev, [stemId]: valor }));
+    setStemControls(prevStems => 
+      prevStems.map(stem => 
+        stem.id === stemId ? { ...stem, volumen: valor } : stem
+      )
+    );
   };
 
+  // Manejador para activar/desactivar efectos de audio
   const manejarAlternarEfecto = (efectoId: string, activo: boolean) => {
     setEfectosActivos(prev => ({ ...prev, [efectoId]: activo }));
   };
 
+  // Manejador para cambiar el efecto visual
   const manejarCambioEfectoVisual = (efecto: EfectoVisual) => {
     setEfectoVisual(efecto);
     if (efecto !== 'ninguno') {
@@ -53,25 +84,42 @@ const Index = () => {
     }
   };
 
+  // Manejador para seleccionar presets predefinidos
   const manejarSeleccionPreset = (presetId: string) => {
     switch (presetId) {
       case 'cyberpunk':
-        setNivelesStems({ vocales: 0.6, instrumental: 0.5, efectos: 0.3 });
+        setStemControls([
+          { id: 'vocales', nombre: 'Vocales', volumen: 0.6 },
+          { id: 'instrumental', nombre: 'Instrumental', volumen: 0.5 },
+          { id: 'efectos', nombre: 'Efectos', volumen: 0.3 }
+        ]);
         setEfectosActivos({ glitch: true, reverb: false, delay: true, distorsion: false });
         setEfectoVisual('glitch');
         break;
       case 'neon_pulse':
-        setNivelesStems({ vocales: 0.5, instrumental: 0.7, efectos: 0.2 });
+        setStemControls([
+          { id: 'vocales', nombre: 'Vocales', volumen: 0.5 },
+          { id: 'instrumental', nombre: 'Instrumental', volumen: 0.7 },
+          { id: 'efectos', nombre: 'Efectos', volumen: 0.2 }
+        ]);
         setEfectosActivos({ glitch: false, reverb: true, delay: false, distorsion: false });
         setEfectoVisual('pulso');
         break;
       case 'glitch_noir':
-        setNivelesStems({ vocales: 0.7, instrumental: 0.3, efectos: 0.4 });
+        setStemControls([
+          { id: 'vocales', nombre: 'Vocales', volumen: 0.7 },
+          { id: 'instrumental', nombre: 'Instrumental', volumen: 0.3 },
+          { id: 'efectos', nombre: 'Efectos', volumen: 0.4 }
+        ]);
         setEfectosActivos({ glitch: true, reverb: false, delay: false, distorsion: true });
         setEfectoVisual('glitch');
         break;
       case 'digital_dream':
-        setNivelesStems({ vocales: 0.4, instrumental: 0.6, efectos: 0.5 });
+        setStemControls([
+          { id: 'vocales', nombre: 'Vocales', volumen: 0.4 },
+          { id: 'instrumental', nombre: 'Instrumental', volumen: 0.6 },
+          { id: 'efectos', nombre: 'Efectos', volumen: 0.5 }
+        ]);
         setEfectosActivos({ glitch: false, reverb: true, delay: true, distorsion: false });
         setEfectoVisual('onda');
         break;
@@ -81,6 +129,28 @@ const Index = () => {
       title: "Preset Aplicado",
       description: `Preset ${presetId.replace('_', ' ')} cargado exitosamente`,
     });
+  };
+
+  // Seleccionar una pista de Spotify y cargar sus stems
+  const seleccionarPista = async (pista: PistaSpotify) => {
+    setPistaActual(pista);
+    
+    try {
+      setCargandoStems(true);
+      const nuevosStems = await spotifyService.obtenerStems(pista.id);
+      setStems(nuevosStems);
+      toast({
+        description: `Pista "${pista.nombre}" cargada exitosamente`
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Error al cargar los stems de la pista"
+      });
+      setStems(null);
+    } finally {
+      setCargandoStems(false);
+    }
   };
 
   return (
@@ -99,24 +169,78 @@ const Index = () => {
       
       <main className="flex-1 container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            <AudioController 
+          <div className="lg:col-span-1 space-y-6">
+            {/* Panel de control de audio con pestañas */}
+            <Tabs defaultValue="audio-controller" className="w-full">
+              <TabsList className="grid grid-cols-2 mb-4">
+                <TabsTrigger value="audio-controller" className="data-[state=active]:bg-cyber-purple">
+                  <Music className="mr-2 h-4 w-4" />
+                  Control
+                </TabsTrigger>
+                <TabsTrigger value="spotify" className="data-[state=active]:bg-cyber-purple">
+                  <Music className="mr-2 h-4 w-4" />
+                  Spotify
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="audio-controller">
+                <AudioController 
+                  onCambioVolumen={manejarCambioVolumen}
+                  onAlternarEfecto={manejarAlternarEfecto}
+                />
+              </TabsContent>
+              
+              <TabsContent value="spotify">
+                <SpotifySelector 
+                  onSeleccionarPista={seleccionarPista}
+                />
+              </TabsContent>
+            </Tabs>
+
+            {/* Reproductor de audio con stems */}
+            <AudioPlayer 
+              stems={stems}
+              pistaActual={pistaActual}
               onCambioVolumen={manejarCambioVolumen}
-              onAlternarEfecto={manejarAlternarEfecto}
+              stemControls={stemControls}
             />
           </div>
           
           <div className="lg:col-span-2 space-y-6">
+            {/* Visualizador con videoclip reactivo */}
             <VideoPlayer 
               activeVisualEffect={efectoVisual}
               stemLevels={nivelesStems}
             />
             
-            <ControlPanel 
-              onVisualEffectChange={manejarCambioEfectoVisual}
-              activeVisualEffect={efectoVisual}
-              onPresetSelect={manejarSeleccionPreset}
-            />
+            {/* Panel de control con pestañas */}
+            <Tabs defaultValue="visual-controls" className="w-full">
+              <TabsList className="grid grid-cols-2 mb-4">
+                <TabsTrigger value="visual-controls" className="data-[state=active]:bg-cyber-purple">
+                  <Video className="mr-2 h-4 w-4" />
+                  Control Visual
+                </TabsTrigger>
+                <TabsTrigger value="prompter" className="data-[state=active]:bg-cyber-purple">
+                  <Video className="mr-2 h-4 w-4" />
+                  Generador
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="visual-controls">
+                <ControlPanel 
+                  onVisualEffectChange={manejarCambioEfectoVisual}
+                  activeVisualEffect={efectoVisual}
+                  onPresetSelect={manejarSeleccionPreset}
+                />
+              </TabsContent>
+              
+              <TabsContent value="prompter">
+                <VideoPrompter 
+                  onAplicarEfectoVisual={manejarCambioEfectoVisual}
+                  activeVisualEffect={efectoVisual}
+                />
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </main>
