@@ -11,12 +11,12 @@ export interface EfectoAudio {
   activo: boolean;
 }
 
+export type EfectoVisual = 'ninguno' | 'glitch' | 'blur' | 'pulso' | 'neon' | 'onda';
+
 export type PresetAudio = {
   id: string;
   nombre: string;
   efectos: string[];
   volumenes: Record<string, number>;
-  efectoVisual: string;
+  efectoVisual: EfectoVisual;
 };
-
-export type EfectoVisual = 'ninguno' | 'glitch' | 'blur' | 'pulso' | 'neon' | 'onda';

@@ -5,10 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Music, Video, Settings } from "lucide-react";
 import { ALLOWED_VISUAL_EFFECTS } from '@/utils/validation';
 import { cn } from '@/lib/utils';
+import { EfectoVisual } from '@/types/audio';
 
 interface ControlPanelProps {
-  onVisualEffectChange: (effect: string) => void;
-  activeVisualEffect: string;
+  onVisualEffectChange: (effect: EfectoVisual) => void;
+  activeVisualEffect: EfectoVisual;
   onPresetSelect: (preset: string) => void;
 }
 
@@ -17,7 +18,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   activeVisualEffect,
   onPresetSelect
 }) => {
-  // Curated presets - anti-trolling feature
   const presets = [
     { id: 'cyberpunk', name: 'Cyberpunk' },
     { id: 'neon_pulse', name: 'Neon Pulse' },
@@ -26,12 +26,12 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   ];
 
   return (
-    <div className="cyber-border bg-cyber-dark bg-opacity-70 backdrop-blur-sm rounded-lg p-4">
+    <div className="cyber-border bg-cyber-dark/70 backdrop-blur-sm rounded-lg p-4 border-cyber-purple/40">
       <Tabs defaultValue="visuals">
         <TabsList className="grid grid-cols-3 mb-4">
           <TabsTrigger value="visuals" className="data-[state=active]:bg-cyber-purple">
             <Video className="mr-2 h-4 w-4" />
-            Visuals
+            Visuales
           </TabsTrigger>
           <TabsTrigger value="presets" className="data-[state=active]:bg-cyber-purple">
             <Music className="mr-2 h-4 w-4" />
@@ -39,25 +39,26 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           </TabsTrigger>
           <TabsTrigger value="settings" className="data-[state=active]:bg-cyber-purple">
             <Settings className="mr-2 h-4 w-4" />
-            Settings
+            Ajustes
           </TabsTrigger>
         </TabsList>
         
         <TabsContent value="visuals">
           <div>
-            <h3 className="text-md font-semibold mb-3 text-cyber-purple">Visual Effects</h3>
+            <h3 className="text-md font-semibold mb-3 text-cyber-purple">Efectos Visuales</h3>
             <div className="grid grid-cols-3 gap-2">
               {ALLOWED_VISUAL_EFFECTS.map((effect) => (
                 <Button 
                   key={effect} 
-                  onClick={() => onVisualEffectChange(effect)}
+                  onClick={() => onVisualEffectChange(effect as EfectoVisual)}
                   variant={activeVisualEffect === effect ? "default" : "outline"}
                   className={cn(
                     activeVisualEffect === effect ? "bg-cyber-purple hover:bg-cyber-purple/90" : "",
-                    "text-sm h-auto py-2"
+                    "text-sm h-auto py-2 border-cyber-purple/40 hover:border-cyber-pink/70"
                   )}
                 >
-                  {effect === 'none' ? 'Clear' : effect.charAt(0).toUpperCase() + effect.slice(1)}
+                  {effect === 'ninguno' ? 'Ninguno' : 
+                   effect.charAt(0).toUpperCase() + effect.slice(1)}
                 </Button>
               ))}
             </div>
