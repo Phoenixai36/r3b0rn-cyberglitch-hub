@@ -1,50 +1,60 @@
-# RESEARCH_HISTORY — Cómo llegamos al estado actual
+# RESEARCH_HISTORY — Historia de investigación
 
-## 1. Punto de partida
-La investigación comenzó alrededor del material familiar atribuido a Fortet, la obra *Logaritmos* y el documento denominado Nona / Parto Aritmético. La primera dificultad fue separar el material documental de las interpretaciones posteriores.
+## Propósito
+Reconstruir cómo evolucionó la investigación Fortet/Nona, qué observaciones fueron originales, qué experimentos se intentaron, qué hipótesis aparecieron y qué controles metodológicos se introdujeron después. Este archivo es memoria de investigación, no evidencia primaria.
 
-## 2. Corpus matemático
-Se tomó como eje *Logaritmos* de Antonio Fortet Pascual. La tabla se considera potencialmente reconstruible como 10.000 entradas con 20 posiciones decimales, es decir, 200.000 dígitos.
+## 1. Corpus inicial y problema
+El núcleo del trabajo reúne la obra *Logaritmos* de Antonio Fortet Pascual, su Fe de Erratas, el material denominado Nona / Parto Aritmético y el corpus narrativo “BUSCANDO A NESSIE”. Desde el principio fue necesario separar material histórico de interpretaciones familiares y de reconstrucciones realizadas por IA.
 
-## 3. Fe de Erratas
-La Fe de Erratas pasó a ser una pieza central porque proporciona discrepancias explícitas entre valores impresos y valores corregidos. Se identificaron 13 correcciones numeradas y, por separado, una indicación de “Para mayor exactitud” con siete números. Se decidió no fusionar automáticamente ambos conjuntos.
+## 2. La tabla de logaritmos
+Se estableció que el problema computacional puede representarse como 10.000 entradas × 20 cifras decimales = 200.000 dígitos. La reconstrucción matemática de log10(n) permite crear un dataset de referencia, pero no equivale automáticamente a la página histórica impresa.
 
-## 4. Ditto marks
-La observación de las líneas con comillas/dittos llevó a distinguir estructura editorial de estructura numérica. El patrón de herencia textual debe conservarse literalmente antes de intentar cualquier interpretación.
+## 3. Verificación local 22–30
+Se cotejaron las filas 22–30 y se comprobó que sus grupos de cinco cifras corresponden a log10(n) redondeado a 20 decimales. Esta prueba sirve como control de reconstrucción, no como prueba de un mensaje oculto.
 
-## 5. Verificación matemática
-Se cotejaron filas de la tabla con log10(n). La zona 22–30 mostró correspondencia con valores matemáticos a 20 decimales. Esto valida la reconstrucción matemática de esa zona, pero no prueba ninguna codificación.
+## 4. Fe de Erratas
+La Fe de Erratas se convirtió en una fuente primaria clave. Se identificaron 13 entradas de corrección. La observación decisiva fue que la nota final “Para mayor exactitud...” contiene siete números y debe analizarse por separado: no debe mezclarse automáticamente con las 13 erratas.
 
-## 6. Hipótesis de matriz
-Se planteó transformar los 200.000 dígitos en una matriz 10.000×20. Esto permite estudiar trayectorias, diagonales y permutaciones sin seleccionar manualmente dígitos concretos.
+## 5. Ditto marks
+La lectura detallada de la tipografía reveló que las comillas/dittos heredan texto de líneas anteriores. En particular, la transición alrededor de 1450/4504 y el grupo de 8181/8474/8987 debe modelarse como una estructura editorial. Una repetición visual de comillas no es por sí misma una secuencia numérica.
+
+## 6. Reconstrucción 10.000×20
+Se propuso disponer los 200.000 dígitos en una matriz. La matriz permite estudiar trayectorias por filas, columnas y diagonales. La lectura diagonal no debe confundirse con una propiedad de la tabla original: es una transformación analítica creada para la investigación.
 
 ## 7. P0/P1/P2
-Se definieron tres lecturas experimentales: P0 por filas, P1 diagonal y P2 diagonal inversa/zig-zag. Deben implementarse formalmente y congelarse antes de usar targets especiales.
+Se plantearon P0 row-major, P1 diagonal y P2 diagonal/zig-zag. La intención es que las transformaciones estén definidas antes de observar resultados de targets especiales. Cualquier transformación adicional debe justificarse por una propiedad independiente del resultado.
 
 ## 8. Fase 1–2–3
-Se observó que una regla modular sencilla sobre fila+columna produce un patrón diagonal de tres fases. Esta observación es matemáticamente reproducible, pero no demuestra que fuera una regla histórica de Fortet.
+Una regla modular sencilla de fase 1–2–3 produce patrones diagonales. Es una propiedad matemática del esquema experimental. No existe, a partir de esta observación por sí sola, evidencia suficiente para atribuir la regla a Fortet.
 
 ## 9. Nona
-La Nona se convirtió en el problema central de reconstrucción: hay que distinguir el documento/objeto original de las visualizaciones que posteriormente construimos. Los patrones visuales sólo adquieren valor histórico si pueden vincularse a evidencia primaria.
+La investigación fue desplazándose hacia la Nona porque podía contener información estructural sobre cómo leer o disponer los datos. El problema principal pasó a ser reconstruirla literalmente antes de interpretarla. Las imágenes de IA y las visualizaciones modernas deben permanecer separadas del objeto/documento original.
 
 ## 10. Números especiales
-8181, 618, 1618 y otros números comenzaron a funcionar como posibles targets. La metodología se endureció para impedir que un target elegido a posteriori dicte la transformación.
+Durante el trabajo aparecieron 8181, 618, 1618 y otros números como posibles targets. Se reconoció el riesgo de seleccionar una transformación porque produce un target atractivo. Por ello los targets deben quedar fuera del proceso de descubrimiento cuando se haga una validación ciega.
 
 ## 11. Hipótesis astronómica
-Apareció Capella/Auriga como posible interpretación. Se decidió tratarla como hipótesis de validación y no como motor para descubrir la transformación.
+Capella/Auriga apareció como posible interpretación. La metodología posterior exige que una relación astronómica sólo se evalúe después de congelar la transformación y definir un conjunto de controles. No se acepta una correspondencia visual como prueba.
 
-## 12. Cambio metodológico
-La investigación pasó de “buscar un patrón” a “construir un experimento falsable”: dataset canónico, transformaciones congeladas, controles nulos, separación discovery/validation, reproducibilidad y auditoría adversarial.
+## 12. Giro metodológico
+La investigación dejó de tratarse como búsqueda libre de patrones y pasó a un pipeline falsable: fuentes primarias, datos canónicos, transformaciones registradas, modelos nulos, discovery/validation, seeds, hashes, tests y auditoría adversarial.
 
-## 13. Estado actual
-El siguiente paso es reconstruir y verificar los datos completos, formalizar la geometría de Nona y ejecutar sistemáticamente las transformaciones y controles. No debe asumirse ningún resultado positivo hasta que sobreviva ese proceso.
+## 13. Qué se debilitó o descartó
+- 20 decimales como evidencia autónoma de código oculto.
+- Ditto marks interpretados como código sin reconstrucción tipográfica.
+- 8181 como target privilegiado sin justificación independiente.
+- Cualquier resultado obtenido ajustando parámetros después de verlo.
+- Cualquier visualización de IA considerada fuente histórica.
 
-## Qué se descartó o debilitó
-- Interpretar los ditto marks como código sin demostrar una regla independiente.
-- Considerar 20 decimales como evidencia suficiente de intención oculta.
-- Tratar 8181 como objetivo privilegiado sin justificación independiente.
-- Convertir una visualización de IA en evidencia primaria.
-- Ajustar una permutación después de observar un resultado atractivo.
+## 14. Qué permanece abierto
+- Reconstrucción literal completa de Nona.
+- Dataset histórico completo frente al matemáticamente reconstruido.
+- Procedencia de cada elemento visual.
+- Definición óptima y justificada de trayectorias.
+- Significado, si alguno, de las fases 1–2–3.
+- Significado de los números especiales.
+- Existencia o ausencia de una señal que sobreviva a controles nulos.
+- Posible relación astronómica independiente.
 
-## Qué sigue abierto
-La reconstrucción literal de Nona, la procedencia exacta de cada elemento visual, el dataset histórico completo, las transformaciones óptimas y cualquier relación con targets astronómicos siguen requiriendo verificación.
+## 15. Regla de continuidad
+Los resultados negativos deben conservarse. Una hipótesis no debe rescatarse mediante complejidad adicional sólo porque sea interesante. El siguiente agente debe continuar desde este historial y verificarlo contra las fuentes antes de ampliar ninguna conclusión.
