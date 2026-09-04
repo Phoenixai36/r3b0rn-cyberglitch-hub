@@ -1,18 +1,31 @@
-# EVIDENCE_MAP
+# EVIDENCE_MAP — Afirmaciones y trazabilidad
+
+La regla es no convertir una inferencia en evidencia. Cada afirmación debe poder recorrer: AFIRMACIÓN → FUENTE → EVIDENCIA → NIVEL DE CERTEZA → REPRODUCIBILIDAD.
 
 | Afirmación | Fuente | Evidencia | Certeza | Reproducible |
 |---|---|---|---|---|
-| *Logaritmos* pertenece a Antonio Fortet Pascual | BNE / bibliografía | Registro bibliográfico | Alta | Sí |
-| La Fe de Erratas contiene 13 correcciones numeradas | Fotografías de la Fe de Erratas | Texto visible | Alta | Sí, mediante imagen/transcripción |
-| Existe una nota separada con 7 números | Fotografía de la Fe de Erratas | Párrafo “Para mayor exactitud…” | Alta | Sí |
-| Los ditto marks heredan texto editorial | Fe de Erratas | Estructura tipográfica visible | Alta | Sí |
-| La tabla puede modelarse como 10.000×20 | Tabla/corpus + especificación de investigación | 10.000 entradas y 20 posiciones | Condicionada a reconstrucción completa | Sí |
-| Las filas 22–30 coinciden con log10(n) a 20 decimales | Tabla + cálculo matemático | Comparación numérica | Alta para esa zona | Sí |
-| P0/P1/P2 son lecturas útiles para experimentar | Definición metodológica del proyecto | Transformaciones explícitas | Alta como método, no como hecho histórico | Sí |
-| Existe una fase diagonal 1–2–3 bajo una regla modular | Modelo matemático experimental | C(r,c)=1+((r-1)+(c-1)) mod 3 | Alta matemáticamente | Sí |
-| Fortet utilizó históricamente esa fase 1–2–3 | Ninguna fuente primaria confirmada | No demostrada | UNKNOWN | No |
-| 8181 es un target intencional | Fe de Erratas + hipótesis | Sólo aparece una corrección para 8181 | No demostrado | No |
-| Capella/Auriga está codificada | Hipótesis/IA | No existe todavía prueba independiente | No demostrado | No |
+| Existe una obra *Logaritmos* atribuida a Antonio Fortet Pascual | Registro bibliográfico BNE / obra | Registro bibliográfico | Alta | Sí |
+| La tabla trabaja con 20 cifras decimales | Ejemplares/páginas de la tabla | Páginas originales | Alta donde la página es legible | Sí mediante transcripción/imagen |
+| La Fe de Erratas contiene 13 correcciones numeradas | Página original de Fe de Erratas | Texto y ditto marks visibles | Alta | Sí mediante transcripción |
+| La nota “Para mayor exactitud...” contiene siete números | Página original de Fe de Erratas | 1231, 1777, 2473, 3089, 3181, 9118, 9696 | Alta | Sí |
+| 8181 tiene una corrección explícita de la última cifra decimal | Fe de Erratas | Entrada 8181 | Alta | Sí |
+| 8474 usa una corrección del penúltimo decimal | Fe de Erratas | Entrada 8474 | Alta | Sí |
+| 8987 usa una corrección de los dos últimos decimales | Fe de Erratas | Entrada 8987 | Alta | Sí |
+| Las filas 22–30 son coherentes con log10(n) a 20 decimales | Páginas de tabla + cálculo independiente | Comparación numérica | Alta para esa zona | Sí |
+| 10.000 × 20 produce 200.000 posiciones | Definición del dataset | 10000×20 | Certeza matemática | Sí |
+| P0/P1/P2 son transformaciones analíticas útiles | Diseño experimental | Funciones definibles | Alta como diseño, no como hecho histórico | Sí |
+| Existe una fase modular 1–2–3 en una reconstrucción experimental | Cálculo de la matriz experimental | Regla modular | Alta como propiedad matemática del modelo | Sí |
+| La Nona fue diseñada históricamente como sistema de lectura de la tabla | Debe localizarse fuente primaria | Actualmente insuficiente | UNKNOWN | No |
+| 8181 codifica un objetivo concreto | Inferencia previa | Sólo coincidencias/hipótesis | UNKNOWN | No |
+| 618/1618 constituyen una clave intencional | Hipótesis | No hay prueba independiente suficiente | UNKNOWN | No |
+| Existe una relación intencional con Capella/Auriga | Hipótesis astronómica | Requiere transformación congelada + controles | UNKNOWN | No |
 
-## Regla
-No elevar una fila a “hecho” sólo porque una IA la haya propuesto. Toda afirmación nueva debe entrar aquí con fuente, evidencia, nivel de certeza y prueba de reproducibilidad.
+## Jerarquía
+PRIMARY = fotografía/escaneo/documento original.
+SECONDARY = bibliografía o fuente histórica externa.
+DERIVED = cálculo reproducible a partir de datos.
+HYPOTHESIS = interpretación que aún necesita prueba.
+AI = material de razonamiento, nunca evidencia primaria por sí mismo.
+
+## Regla de actualización
+Cuando aparezca nueva evidencia, añadirla sin borrar la versión anterior. Si una afirmación cambia de estado, registrar qué evidencia produjo el cambio.
