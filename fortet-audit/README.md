@@ -1,32 +1,61 @@
-# Fortet — Auditoría de 200.000 dígitos
+# FORTET / NONA — Forensic Research Workspace
 
-Fase 0 del laboratorio reproducible.
+This directory contains the reproducible research workspace for the Fortet / Nona investigation.
 
-## Regla primaria congelada
+## Epistemic status
 
-Para n=1..10.000:
+Primary evidence, reconstructed data, experiments, AI hypotheses and final interpretations are deliberately separated.
 
-1. calcular `log10(n)` con precisión arbitraria;
-2. extraer/redondear 20 cifras decimales de la parte fraccionaria;
-3. construir matriz `M[n,j]`, 10.000 × 20;
-4. definir diagonales `d=i+j` con `i=n-1`, `j=columna-1`;
-5. fase cromática: `phase=(i+j) mod 3 + 1`;
-6. comparar P0 (row-major), P1 (diagonal ↘) y P2 (diagonal zig-zag).
+The project does **not** assume that there is a hidden code, a historical encoding, or an astronomical target. Any such claim must emerge from a reproducible analysis.
 
-## Controles
+## Core files
 
-- precisión 14/20/27;
-- permutación de filas;
-- permutación intra-fila;
-- barajado de los 200.000 dígitos conservando marginales;
-- semilla reproducible `20260903`.
+- `MASTER_CONTEXT.txt` — compact master context for computational agents.
+- `AGENT_INSTRUCTIONS.md` — operating rules for Antigravity/local agents.
+- `RESEARCH_RULES.md` — anti-overfitting and provenance rules.
+- `nona_visualizacion_accesible.html` — existing exploratory visualization; explicitly not a historical transcription.
 
-## Números especiales
+## Recommended working tree
 
-6, 13, 185, 494, 618, 1618, 8181.
+```text
+01_PRIMARY_SOURCES/
+02_SECONDARY_SOURCES/
+03_AI_MATERIAL/
+04_RAW_DATA/
+05_CANONICAL_DATA/
+06_RECONSTRUCTION/
+07_TRANSFORMATIONS/
+08_NONA_EXPERIMENTS/
+09_STATISTICS/
+10_NULL_MODELS/
+11_BLIND_VALIDATION/
+12_SPECIAL_TARGETS/
+13_ASTRONOMY/
+14_VISUALIZATION/
+15_CODE/
+16_TESTS/
+17_RESULTS/
+18_AUDIT/
+19_PROVENANCE/
+20_REPORTS/
+21_EXPORT/
+22_DOSSIER/
+```
 
-## Regla epistemológica
+## Current methodological priority
 
-Los datos matemáticamente reconstruidos NO deben confundirse con una transcripción del ejemplar histórico de Fortet. Ninguna comparación astronómica se utiliza para ajustar la transformación primaria.
+1. Verify primary scans/photos and provenance.
+2. Verify the Fe de Erratas exactly.
+3. Build separate printed/corrected/computed datasets.
+4. Recover the original Nona geometry rather than inferring it from derived graphics.
+5. Pre-register transformations.
+6. Run null models and blind validation.
+7. Only then evaluate special-number or astronomical interpretations.
 
-Los artefactos y estadísticas definitivos deben ser generados y verificados antes de interpretarlos.
+## Existing frozen experiment context
+
+The repository already contains the 10,000 × 20 conceptual experiment using `phase=(i+j) mod 3 + 1`, P0/P1/P2, controls and seed `20260903`. See the existing README history and visualization.
+
+## Important warning
+
+Previous AI reports contain unverified hypotheses and must not be treated as historical evidence.
