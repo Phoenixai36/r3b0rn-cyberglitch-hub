@@ -1,0 +1,139 @@
+FORTET / NONA — MASTER CONTEXT
+
+Purpose: forensic, reproducible investigation separating primary evidence, reproducible mathematics, inference, hypothesis/speculation, and refuted/unproven claims.
+
+PRIMARY HISTORICAL ANCHORS
+- BNE bibliographic record for Antonio Fortet Pascual, “Logaritmos”: https://datos.bne.es/resource/XX527539
+- Do not conflate Antonio Fortet Pascual (mathematician/author) with Antonio Fortet Gay (later generation/narrator).
+- “BUSCANDO A NESSIE” is described in the corpus as a “memoria novelada”; treat it as hybrid/fabulatory material, not automatic factual history.
+- “Nona” / “Parto Aritmético” remains unresolved; original geometry/source must outrank later reconstructions.
+
+FE DE ERRATAS — PRIMARY PHOTOGRAPHIC EVIDENCE
+13 listed corrections:
+1) 1450 characteristic 3 instead of 2.
+2) 4504 characteristic 3 instead of 4.
+3) 1630 17th decimal digit 0 instead of 9.
+4) 3529 11th decimal digit 5 instead of 6.
+5) 5876 15th decimal digit 8 instead of 2.
+6) 5943 16th and 17th decimal digits 50 instead of 44.
+7) 7058 11th decimal digit 2 instead of 3.
+8) 7069 16th decimal digit 9 instead of 8.
+9) 9433 17th and 18th decimal digits 95 instead of 87.
+10) 9461 14th decimal digit 1 instead of 2.
+11) 8181 final decimal digit is 7.
+12) 8474 penultimate decimal digit is 2.
+13) 8987 final two decimal digits are 69.
+Separate note: “Para mayor exactitud puede aumentarse de una unidad la última cifra decimal de los Log. correspondientes a los números: 1231 - 1777 - 2473 - 3089 - 3181 - 9118 y 9696.”
+
+TYPOGRAPHIC STRUCTURE
+Template A: “Log. del n.º N — Característica A en lugar de B.” Ditto marks inherit wording.
+Template B: “En el Log. del n.º N la P cifra decimal es V.” Ditto marks inherit wording.
+Treat ditto-mark inheritance as editorial compression first, not cryptography.
+
+SEVEN-NUMBER NOTE
+1231 -> fractional log digits approx 0902580529313163078240...
+1777 -> 2496874278053015254915...
+2473 -> 3932241163612972862901...
+3089 -> 4898179083014506359496...
+3181 -> 5025636691073633559039...
+9118 -> 9598995878659435114123...
+9696 -> 9865926068222109876389...
+No claim of special intent is established merely by these values.
+
+20 DECIMAL PLACES
+20 places are not unique evidence of hidden encoding; historical tables existed at 20 places. Do not infer mystery from precision alone.
+
+CANONICAL DATASET TARGET
+n = 1..10000; 20 decimal digits each; total 200,000 decimal digits.
+Maintain separately:
+- PRINTED / RAW historical transcription
+- ERRATA-CORRECTED
+- MATHEMATICALLY-COMPUTED
+Never silently overwrite one with another.
+Suggested per-record fields: raw_value, corrected_value, correction_source, correction_position, confidence, source_image/provenance.
+
+VERIFIED SAMPLE ROWS 22–30
+22 1'34242 26808 22206 23596 -> 1.34242268082220623596
+23 1'36172 78360 17592 87887 -> 1.36172783601759287887
+24 1'38021 12417 11606 02294 -> 1.38021124171160602294
+25 1'39794 00086 72037 60957 -> 1.39794000867203760957
+26 1'41497 33479 70817 96442 -> 1.41497334797081796442
+27 1'43136 37641 58987 31189 -> 1.43136376415898731189
+28 1'44715 80313 42219 22114 -> 1.44715803134221922114
+29 1'46239 79978 98956 08733 -> 1.46239799789895608733
+30 1'47712 12547 19662 43730 -> 1.47712125471966243730
+These are mathematically coherent; this alone proves no encoding.
+
+NONA / 10,000 x 20 EXPERIMENTAL MODEL
+M[r,c], r=1..10000, c=1..20.
+Experimental phase:
+C(r,c) = 1 + ((r-1)+(c-1)) mod 3
+Rows: 1 2 3 1 2 3... / 2 3 1 2 3 1... / 3 1 2 3 1 2...
+This is an experimental mathematical construction, NOT historical evidence that Fortet used it.
+Candidate traversals:
+P0 = row-major
+P1 = diagonals ↘ grouped by d=i+j
+P2 = diagonal zig-zag / alternating direction
+Transformations must be mathematically explicit and frozen before target inspection.
+
+SPECIAL NUMBERS / ASTRONOMY
+Potential test values mentioned historically/experimentally: 6, 13, 185, 494, 618, 1618, 8181, plus 1231, 1777, 2473, 3089, 3181, 8474, 8987, 9118, 9696.
+Capella/Auriga is a validation hypothesis only, not an established target.
+Never say “8181 = Capella”, “50 = Capella”, or “the table contains Capella coordinates” without a previously fixed reproducible transformation and proper controls.
+
+EPISTEMIC RULES
+1. Primary evidence > reproducible calculation > secondary source > AI analysis > hypothesis.
+2. AI-generated reports are contaminated hypothesis material unless independently verified.
+3. Never fit a transformation after seeing a target.
+4. Separate discovery and validation datasets.
+5. Record every parameter and random seed.
+6. Preserve negative results.
+7. Compare against null models.
+8. A visual resemblance is not evidence of intentional encoding.
+9. Historical interpretation requires historical evidence.
+10. Mathematical claims must be reproducible by code.
+
+PIPELINE
+PHASE 0 provenance: register sources, scans, photos, OCR, hashes.
+PHASE 1 errata: structure all 13 corrections + seven-number note; preserve printed/corrected values.
+PHASE 2 dataset: generate log10(1..10000) at required precision and compare printed/errata/computed.
+PHASE 3 Nona: recover original source, transcribe literally, extract geometry/symbols/colors/order/spacing/ditto marks.
+PHASE 4 transformations: P0/P1/P2 and only independently justified additions.
+PHASE 5 statistics: descriptive tests, enrichment, autocorrelation, runs, entropy, diagonal tests, effect sizes.
+PHASE 6 null models: random permutations, digit shuffles, row shuffles, phase shuffles, circular shifts, distribution-matched controls.
+PHASE 7 blind validation: freeze rule, then reveal special targets.
+PHASE 8 astronomy: only after frozen rule, compare with authoritative catalogues.
+PHASE 9 adversarial audit: attack assumptions, multiple testing, overfitting, alternative explanations.
+
+SUCCESS CRITERION
+A simple rule, fixed independently, reproducible, compatible with documentary evidence, predictive on held-out data, and surviving null controls.
+
+NON-RESULT CRITERION
+“No evidence sufficient to assert intentional encoding” is a valid outcome. Do not rescue failed hypotheses with extra parameters.
+
+EXPECTED OUTPUTS
+canonical_dataset.csv
+canonical_dataset.parquet
+digits_200000.txt
+errata.csv
+nona_raw_transcription.json
+nona_geometry.json
+transformations.py
+null_models.py
+blind_validation.py
+results.json
+results.md
+README.md
+hashes.txt
+figures/
+
+REPROVENANCE
+Every result should record dataset version, transformation, parameters, seed, date, file hash, discovery/validation split, and controls.
+
+AI COLLABORATION
+Claude/Sonnet: adversarial auditor, multimodal reconstructor, experiment designer, hidden-assumption detector. Ask: recover the rule behind NONAFORTETCLAUDE.png; identify missed multimodal links; list weak assumptions; determine the unknown Nona variable; test the manual-paper-calculator hypothesis; ignore semantic colors; find the minimum model; build strongest case for/against; design an experiment better than P0/P1/P2.
+
+FINAL PRINCIPLE
+Do not search for confirmation. Search for falsification.
+source -> rule -> calculation -> control -> prediction -> replication
+Anything missing remains hypothesis.
